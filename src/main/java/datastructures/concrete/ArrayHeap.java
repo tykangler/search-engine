@@ -1,6 +1,7 @@
 package datastructures.concrete;
 
 import datastructures.interfaces.IPriorityQueue;
+import misc.exceptions.EmptyContainerException;
 import misc.exceptions.NotYetImplementedException;
 
 /**
@@ -41,17 +42,53 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     @Override
     public T removeMin() {
-        throw new NotYetImplementedException();
+        if (size == 0) {
+            throw new EmptyContainerException();
+        }
+        T ret = heap[0];
+        size--;
+        heap[0] = heap[size];
+        int currIndex = 0;
+        int minChildIndex = getMinChildIndex(0);
+        while (minChildIndex != currIndex) {
+            heap[currIndex] = heap[minChildIndex];
+            currIndex = minChildIndex;
+            minChildIndex = getMinChildIndex(currIndex);
+        }
+        return ret;
+    }
+
+    /* returns the index of the child with the smallest value, given a parent. 
+    If the parent has a smaller value than all of its children, return parent index. */
+    private int getMinChildIndex(int parent) {
+        int minIndex = parent;
+        for (int child = parent * 4 + 1; child < size && child < child + NUM_CHILDREN; child++) {
+            if (heap[parent].compareTo(heap[child]) > 0) {
+                if (heap[minIndex].compareTo(heap[child]) <= 0) {
+                    minIndex = child;
+                }
+            }
+        }
+        return minIndex;
     }
 
     @Override
     public T peekMin() {
-        throw new NotYetImplementedException();
+        if (size == 0) {
+            throw new EmptyContainerException();
+        }
+        return heap[0];
     }
 
     @Override
     public void insert(T item) {
-        throw new NotYetImplementedException();
+        if (item == null) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void increaseCapacity() {
+
     }
 
     @Override
