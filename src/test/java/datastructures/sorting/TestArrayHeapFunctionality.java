@@ -47,6 +47,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
     @Test(timeout=SECOND)
     public void basicTestRemoveMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
+        heap.insert(3);
         assertEquals(3, heap.removeMin());
         assertTrue(heap.isEmpty());
 

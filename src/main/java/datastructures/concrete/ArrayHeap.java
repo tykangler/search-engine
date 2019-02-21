@@ -20,7 +20,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     // Feel free to add more fields and constants.
 
     public ArrayHeap() {
-        heap = makeArrayOfT(NUM_CHILDREN);
+        heap = makeArrayOfT(NUM_CHILDREN + 1);
         size = 0;
     }
 
@@ -52,6 +52,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         int minChildIndex = getMinChildIndex(0);
         while (minChildIndex != currIndex) {
             heap[currIndex] = heap[minChildIndex];
+            heap[minChildIndex] = heap[currIndex];
             currIndex = minChildIndex;
             minChildIndex = getMinChildIndex(currIndex);
         }
