@@ -78,4 +78,13 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
             assertTrue(sortedList.get(i) < sortedList.get(i + 1));
         }
     }
+
+    @Test(timeout=1200*SECOND)
+    public void ultimateStressTest() {
+        IPriorityQueue<Integer> fat = new ArrayHeap<Integer>();
+        for (int i = 0; i < 1000000000; i++) {
+            fat.insert(i);
+            i--;
+        }
+    }
 }
