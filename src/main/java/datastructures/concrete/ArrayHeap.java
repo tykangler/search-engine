@@ -95,7 +95,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             heap[compareIndex] = heap[parent];
             heap[parent] = item;
             compareIndex = parent;
-            parent = (parent - 1 ) / NUM_CHILDREN;
+            parent = (parent - 1) / NUM_CHILDREN;
         }
     }
 
