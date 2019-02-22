@@ -27,6 +27,9 @@ public class Sorter {
         }
         IList<T> sortedList = new DoubleLinkedList<T>();
         IPriorityQueue<T> heap = new ArrayHeap<T>();
+        if (k > input.size()) {
+            k = input.size();
+        }
         for (int i = input.size() - k; i < input.size(); i++) {
             heap.insert(input.get(i));
         }
