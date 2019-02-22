@@ -2,7 +2,6 @@ package datastructures.concrete;
 
 import datastructures.interfaces.IPriorityQueue;
 import misc.exceptions.EmptyContainerException;
-import misc.exceptions.NotYetImplementedException;
 
 /**
  * @see IPriorityQueue for details on what each method must do.
@@ -51,8 +50,9 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         int currIndex = 0;
         int minChildIndex = getMinChildIndex(0);
         while (minChildIndex != currIndex) {
+            T temp = heap[currIndex];
             heap[currIndex] = heap[minChildIndex];
-            heap[minChildIndex] = heap[currIndex];
+            heap[minChildIndex] = temp;
             currIndex = minChildIndex;
             minChildIndex = getMinChildIndex(currIndex);
         }
@@ -64,10 +64,8 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     private int getMinChildIndex(int parent) {
         int minIndex = parent;
         for (int child = parent * 4 + 1; child < size && child < child + NUM_CHILDREN; child++) {
-            if (heap[parent].compareTo(heap[child]) > 0) {
-                if (heap[minIndex].compareTo(heap[child]) <= 0) {
-                    minIndex = child;
-                }
+            if (heap[minIndex].compareTo(heap[child]) <= 0) {
+                minIndex = child;
             }
         }
         return minIndex;
@@ -86,10 +84,28 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         if (item == null) {
             throw new IllegalArgumentException();
         }
+        if (heap.length == size) {
+            increaseCapacity();
+        }
+        heap[size] = item;
+        size++;
+        int current = size - 1;
+        int parent = (size - 1) / NUM_CHILDREN;
+        while (current != 0 && heap[current].compareTo(heap[parent]) > 0) {
+            T temp = heap[current];
+            heap[current] = heap[parent];
+            heap[parent] = temp;
+            current = parent;
+            parent = (current - 1) / 4;
+        }
     }
 
     private void increaseCapacity() {
-
+        T[] temp = makeArrayOfT(heap.length * 2);
+        for (int i = 0; i < heap.length; i++) {
+            temp[i] = heap[i];
+        }
+        heap = temp;
     }
 
     @Override

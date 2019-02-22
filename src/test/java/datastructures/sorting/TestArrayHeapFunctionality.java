@@ -98,12 +98,11 @@ public class TestArrayHeapFunctionality extends BaseTest {
     @Test(timeout=SECOND)
     public void testMultipleInsertAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-
         for (int i = 0; i < 10; i++) {
             heap.insert(i);
         }
-        assertEquals(11, heap.size());
-
+        assertEquals(10, heap.size());
+        
         for (int i = 0; i < 10; i++) {
             assertEquals(i, heap.removeMin());
         }
