@@ -1,7 +1,9 @@
 package misc;
 
+import datastructures.concrete.ArrayHeap;
+import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
-import misc.exceptions.NotYetImplementedException;
+import datastructures.interfaces.IPriorityQueue;
 
 public class Sorter {
     /**
@@ -20,18 +22,15 @@ public class Sorter {
      * @throws IllegalArgumentException  if input is null
      */
     public static <T extends Comparable<T>> IList<T> topKSort(int k, IList<T> input) {
-        // Implementation notes:
-        //
-        // - This static method is a _generic method_. A generic method is similar to
-        //   the generic methods we covered in class, except that the generic parameter
-        //   is used only within this method.
-        //
-        //   You can implement a generic method in basically the same way you implement
-        //   generic classes: just use the 'T' generic type as if it were a regular type.
-        //
-        // - You should implement this method by using your ArrayHeap for the sake of
-        //   efficiency.
-
-        throw new NotYetImplementedException();
+        if (k < 0 || input == null) {
+            throw new IllegalArgumentException();
+        }
+        IList<T> sortedList = new DoubleLinkedList<T>();
+        IPriorityQueue<T> heap = new ArrayHeap<T>();
+        for (int i = 0; i < k; i++) {
+            heap.insert(input.get(i));
+        }
+        sortedList.add(heap.peekMin());
+        return sortedList;
     }
 }
