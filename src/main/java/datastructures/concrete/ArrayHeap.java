@@ -89,10 +89,13 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
             increaseCapacity();
         }
         heap[size - 1] = item;
-
-
-
-
+        // (index of the item) - 1 because array starts at zero
+        int parent = ((size - 1) - 1) / NUM_CHILDREN;
+        while (heap[parent].compareTo(heap[size - 1]) > 0) { // while parent is bigger than child
+            heap[size - 1] = heap[parent];
+            heap[parent] = item;
+            parent = parent - (NUM_CHILDREN - 1);
+        }
     }
 
     private void increaseCapacity() {
