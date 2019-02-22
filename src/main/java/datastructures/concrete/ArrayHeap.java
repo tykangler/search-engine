@@ -64,7 +64,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     private int getMinChildIndex(int parent) {
         int minIndex = parent;
         for (int child = parent * 4 + 1; child < size && child < child + NUM_CHILDREN; child++) {
-            if (heap[minIndex].compareTo(heap[child]) <= 0) {
+            if (heap[minIndex].compareTo(heap[child]) < 0) {
                 minIndex = child;
             }
         }
