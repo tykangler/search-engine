@@ -21,12 +21,6 @@ public class TestArrayHeapFunctionality extends BaseTest {
     }
 
     @Test(timeout=SECOND)
-    public void basicTestConstructor() {
-        IPriorityQueue<Integer> heap = this.makeInstance();
-        assertEquals(new Integer[0], heap);
-    }
-
-    @Test(timeout=SECOND)
     public void testBasicSize() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         heap.insert(0);
@@ -41,7 +35,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
         heap.insert(0);
         assertEquals(1, initSize + 1);
         heap.removeMin();
-        assertEquals(1, initSize);
+        assertEquals(0, initSize);
     }
 
     @Test(timeout=SECOND)
@@ -77,16 +71,13 @@ public class TestArrayHeapFunctionality extends BaseTest {
 
     }
 
-    // not finished
     @Test(timeout=SECOND)
     public void basicTestInsert() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         heap.insert(0);
-        assertEquals(new Integer[]{0}, heap);
         assertEquals(1, heap.size());
 
         heap.insert(1);
-        assertEquals(new Integer[]{0, 1}, heap);
         assertEquals(2, heap.size());
 
         try {
@@ -97,7 +88,6 @@ public class TestArrayHeapFunctionality extends BaseTest {
         }
     }
 
-    // not finished
     @Test(timeout=SECOND)
     public void testMultipleInsertAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
@@ -138,19 +128,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
         int initSize = heap.size();
         assertEquals(0, heap.removeMin());
         assertTrue(!heap.isEmpty());
-        assertEquals(4, initSize);
-        assertEquals(new Integer[]{0, 0, 0, 0, 0}, heap);
-    }
-
-    @Test(timeout=SECOND)
-    public void testInsertNullThrowsException() {
-        IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        try {
-            heap.insert(null);
-            fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // Do nothing.
-        }
+        assertEquals(4, initSize - 1);
     }
 
 }
