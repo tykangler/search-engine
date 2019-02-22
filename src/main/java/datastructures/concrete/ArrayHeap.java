@@ -2,7 +2,6 @@ package datastructures.concrete;
 
 import datastructures.interfaces.IPriorityQueue;
 import misc.exceptions.EmptyContainerException;
-import misc.exceptions.NotYetImplementedException;
 
 /**
  * @see IPriorityQueue for details on what each method must do.
@@ -86,10 +85,22 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         if (item == null) {
             throw new IllegalArgumentException();
         }
+        if (size >= heap.length) {
+            increaseCapacity();
+        }
+        heap[size - 1] = item;
+
+
+
+
     }
 
     private void increaseCapacity() {
-
+        T[] replace = makeArrayOfT(2 * heap.length);
+        for (int i = 0; i < heap.length; i++) {
+            replace[i] = heap[i];
+        }
+        heap = replace;
     }
 
     @Override
