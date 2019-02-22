@@ -64,7 +64,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     private int getMinChildIndex(int parent) {
         int minIndex = parent;
         for (int child = parent * 4 + 1; child < size && child < child + NUM_CHILDREN; child++) {
-            if (heap[minIndex].compareTo(heap[child]) < 0) {
+            if (heap[minIndex].compareTo(heap[child]) > 0) {
                 minIndex = child;
             }
         }
@@ -90,12 +90,12 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         heap[size] = item;
         size++;
         int parent = (size - 1) / NUM_CHILDREN;
-        int compareIndex = size;
+        int compareIndex = size - 1;
         while (heap[parent].compareTo(heap[compareIndex]) > 0) { // while parent is bigger than child
-            heap[size] = heap[parent];
+            heap[compareIndex] = heap[parent];
             heap[parent] = item;
             compareIndex = parent;
-            parent = parent - (NUM_CHILDREN - 1);
+            parent = (parent - 1 ) / NUM_CHILDREN;
         }
     }
 

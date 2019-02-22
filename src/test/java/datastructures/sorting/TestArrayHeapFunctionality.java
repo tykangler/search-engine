@@ -88,7 +88,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
         }
     }
 
-    @Test(timeout=SECOND)
+    @Test(timeout=100*SECOND)
     public void testMultipleInsertAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
         for (int i = 0; i < 10; i++) {
