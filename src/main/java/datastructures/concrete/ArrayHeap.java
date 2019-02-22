@@ -84,28 +84,18 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         if (item == null) {
             throw new IllegalArgumentException();
         }
-        if (heap.length == size) {
+        if (size >= heap.length) {
             increaseCapacity();
         }
-        heap[size] = item;
-        size++;
-        int current = size - 1;
-        int parent = (size - 1) / NUM_CHILDREN;
-        while (current != 0 && heap[current].compareTo(heap[parent]) > 0) {
-            T temp = heap[current];
-            heap[current] = heap[parent];
-            heap[parent] = temp;
-            current = parent;
-            parent = (current - 1) / 4;
-        }
+        heap[size - 1] = item;
     }
 
     private void increaseCapacity() {
-        T[] temp = makeArrayOfT(heap.length * 2);
+        T[] replace = makeArrayOfT(2 * heap.length);
         for (int i = 0; i < heap.length; i++) {
-            temp[i] = heap[i];
+            replace[i] = heap[i];
         }
-        heap = temp;
+        heap = replace;
     }
 
     @Override
