@@ -9,7 +9,6 @@ import datastructures.concrete.ArrayHeap;
 import datastructures.interfaces.IPriorityQueue;
 import misc.exceptions.EmptyContainerException;
 import org.junit.Test;
-import java.util.Collections;
 
 
 /**

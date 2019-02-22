@@ -27,10 +27,13 @@ public class Sorter {
         }
         IList<T> sortedList = new DoubleLinkedList<T>();
         IPriorityQueue<T> heap = new ArrayHeap<T>();
-        for (int i = 0; i < k; i++) {
+        for (int i = input.size() - k; i < input.size(); i++) {
             heap.insert(input.get(i));
         }
-        sortedList.add(heap.peekMin());
+        int size = heap.size();
+        for (int i = 0; i < size; i++) {
+            sortedList.add(heap.removeMin());
+        }
         return sortedList;
     }
 }
