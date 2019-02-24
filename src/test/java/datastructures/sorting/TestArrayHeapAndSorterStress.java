@@ -22,18 +22,16 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
     @Test(timeout=15*SECOND)
     public void testStressInsertAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 1000; j++) {
-                heap.insert(j);
-            }
-            for (int j = 0; j < 1000; j++) {
-                assertEquals(j, heap.removeMin());
-            }
+        for (int i = 0; i < 200000; i++) {
+            heap.insert(i);
+        }
+        for (int i = 0; i < 200000; i++) {
+            assertEquals(i, heap.removeMin());
         }
     }
 
     @Test(timeout=15*SECOND)
-    public void testStressInsertAndPeekMin() {
+    public void testStressInsertandPeekMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
         for (int i = 300000; i >= 0; i--) {
             heap.insert(i);
@@ -44,13 +42,13 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
     @Test(timeout=15*SECOND)
     public void testStressInsertFromBackAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        for (int i = 100000; i >= 0; i--) {
+        for (int i = 0; i < 100000; i++) {
             heap.insert(i);
         }
-        for (int i = 0; i <= 100000; i++) {
+        for (int i = 0; i < 100; i++) {
             assertEquals(i, heap.removeMin());
         }
-        assertEquals(0, heap.size());
+        assertEquals(100000 - 100, heap.size());
     }
 
     @Test(timeout=15*SECOND)
@@ -68,7 +66,7 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
     }
 
     @Test(timeout=15*SECOND)
-    public void testStressSortRandomElements() {
+    public void testStressSortLast5Elements() {
         IList<Integer> list = new DoubleLinkedList<Integer>();
         for (int i = 0; i < 200000; i++) {
             list.add(i);
