@@ -47,25 +47,24 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         T ret = heap[0];
         size--;
         heap[0] = heap[size];
-        int currIndex = 0;
+        int parent = 0;
         int minChildIndex = getMinChildIndex(0);
-        while (minChildIndex != currIndex) {
-            T temp = heap[currIndex];
-            heap[currIndex] = heap[minChildIndex];
+        while (minChildIndex != parent) {
+            T temp = heap[parent];
+            heap[parent] = heap[minChildIndex];
             heap[minChildIndex] = temp;
-            currIndex = minChildIndex;
-            minChildIndex = getMinChildIndex(currIndex);
+            parent = minChildIndex;
+            minChildIndex = getMinChildIndex(parent);
         }
         return ret;
     }
 
     /* returns the index of the child with the smallest value, given a parent. 
     If the parent has a smaller value than all of its children, return parent index. */
-    private int getMinChildIndex(int parent) {
-        int minIndex = parent;
-        for (int child = parent * 4 + 1; child < size && child < child + NUM_CHILDREN; child++) {
-            if (heap[minIndex].compareTo(heap[child]) > 0) {
-                minIndex = child;
+    private int getMinChildIndex(int minIndex) {
+        for (int i = minIndex * NUM_CHILDREN + 1; i < size && i < i + NUM_CHILDREN; i++) {
+            if (heap[minIndex].compareTo(heap[i]) > 0) {
+                minIndex = i;
             }
         }
         return minIndex;
@@ -91,7 +90,8 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         size++;
         int compareIndex = size - 1;
         int parent = (compareIndex - 1) / NUM_CHILDREN;
-        while (heap[parent].compareTo(heap[compareIndex]) > 0) { // while parent is bigger than child
+        // while parent is bigger than child
+        while (compareIndex != 0 && heap[parent].compareTo(heap[compareIndex]) > 0) { 
             heap[compareIndex] = heap[parent];
             heap[parent] = item;
             compareIndex = parent;
