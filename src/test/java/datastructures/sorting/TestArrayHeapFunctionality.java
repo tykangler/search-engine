@@ -38,7 +38,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
     }
 
     @Test(timeout=SECOND)
-    public void basicTestRemoveMin() {
+    public void testBasicRemoveMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         heap.insert(3);
         assertEquals(3, heap.removeMin());
@@ -53,7 +53,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
     }
 
     @Test(timeout=SECOND)
-    public void basicTestPeekMin() {
+    public void testBasicPeekMin() {
         IPriorityQueue<Integer> heap = this.makeInstance();
 
         try {
@@ -71,7 +71,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
     }
 
     @Test(timeout=SECOND)
-    public void basicTestInsert() {
+    public void testBasicInsert() {
         IPriorityQueue<Integer> heap = this.makeInstance();
         heap.insert(0);
         assertEquals(1, heap.size());
@@ -128,14 +128,6 @@ public class TestArrayHeapFunctionality extends BaseTest {
         assertEquals(0, heap.removeMin());
         assertTrue(!heap.isEmpty());
         assertEquals(4, initSize - 1);
-    }
-
-    @Test(timeout=SECOND)
-    public void testPercolateDownEfficient() {
-        IPriorityQueue<Integer> heap = this.makeInstance();
-        for (int i = 1000; i>= 0; i--) {
-            heap.insert(i);
-        }
     }
 
 }
