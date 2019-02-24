@@ -32,18 +32,17 @@ public class Sorter {
         }
         int i = 0;
         for (T val : input) {
-            if (i <= k) {
+            if (i < k) {
                 heap.insert(val);
             } else {
-                if ((heap.peekMin().compareTo(val) < 0)) {
+                if (heap.peekMin().compareTo(val) < 0) {
                     heap.removeMin();
                     heap.insert(val);
                 }
             }
             i++;
         }
-        int size = heap.size();
-        for (int j = size; j > size - k; j--) {
+        for (int j = 0; j < k; j++) {
             sortedList.add(heap.removeMin());
         }
         return sortedList;
