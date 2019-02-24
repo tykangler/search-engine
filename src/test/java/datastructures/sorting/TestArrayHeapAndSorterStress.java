@@ -84,7 +84,6 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
         IPriorityQueue<Integer> fat = new ArrayHeap<Integer>();
         for (int i = 0; i < 1000000000; i++) {
             fat.insert(i);
-            i--;
         }
     }
 }
