@@ -1,5 +1,7 @@
 package datastructures.sorting;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import misc.BaseTest;
@@ -19,71 +21,65 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestArrayHeapAndSorterStress extends BaseTest {
 
-    @Test(timeout=2*SECOND)
+    @Test(timeout=15*SECOND)
     public void testStressInsertAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        for (int i = 0; i <= 300000; i++) {
-            heap.insert(i);
-        }
-        for (int i = 0; i <= 300000; i++) {
-            assertEquals(i, heap.removeMin());
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 1000; j++) {
+                heap.insert(j);
+            }
+            for (int j = 0; j < 1000; j++) {
+                assertEquals(j, heap.removeMin());
+            }
         }
     }
 
-    @Test(timeout=3*SECOND)
-    public void testStressInsertFromBackandPeekMin() {
+    @Test(timeout=15*SECOND)
+    public void testStressInsertandPeekMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        for (int i = 0; i <= 300000; i++) {
+        for (int i = 300000; i >= 0; i--) {
             heap.insert(i);
         }
         assertEquals(0, heap.peekMin());
     }
 
-    @Test(timeout=5*SECOND)
+    @Test(timeout=15*SECOND)
     public void testStressInsertFromBackAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        for (int i = 300000; i >= 0; i++) {
+        for (int i = 0; i < 100000; i--) {
             heap.insert(i);
         }
-        for (int i = 0; i <= 300000; i++) {
+        for (int i = 0; i < 100; i++) {
             assertEquals(i, heap.removeMin());
         }
-        assertEquals(0, heap.size());
+        assertEquals(100000 - 100, heap.size());
     }
 
-    @Test(timeout=5*SECOND)
-    public void testStressSortAllElements() {
+    @Test(timeout=15*SECOND)
+    public void testStressSort5000Elements() {
         Random rand = new Random();
         IList<Integer> list = new DoubleLinkedList<Integer>();
-        for (int i = 0; i < 300000; i++) {
+        for (int i = 0; i < 100000; i++) {
             list.add(rand.nextInt());
         }
-        IList<Integer> sortedList = Sorter.topKSort(300000, list);
-        assertEquals(300000, sortedList.size());
+        IList<Integer> sortedList = Sorter.topKSort(5000, list);
+        assertEquals(5000, sortedList.size());
         for (int i = 0; i < sortedList.size() - 1; i++) {
             assertTrue(sortedList.get(i) < sortedList.get(i + 1));
         }
     }
 
-    @Test(timeout=5*SECOND)
-    public void testStressSortVariableElements() {
-        Random rand = new Random();
+    @Test(timeout=15*SECOND)
+    public void testStressSortRandomElements() {
         IList<Integer> list = new DoubleLinkedList<Integer>();
-        for (int i = 0; i < 300000; i++) {
-            list.add(rand.nextInt());
+        for (int i = 0; i < 200000; i++) {
+            list.add(i);
         }
-        IList<Integer> sortedList = Sorter.topKSort(30765, list);
-        assertEquals(30765, list.size());
+        IList<Integer> sortedList = Sorter.topKSort(5, list);
+        assertEquals(5, sortedList.size());
         for (int i = 0; i < sortedList.size() - 1; i++) {
             assertTrue(sortedList.get(i) < sortedList.get(i + 1));
         }
     }
 
-    @Test(timeout=1200*SECOND)
-    public void ultimateStressTest() {
-        IPriorityQueue<Integer> fat = new ArrayHeap<Integer>();
-        for (int i = 0; i < 1000000000; i++) {
-            fat.insert(i);
-        }
-    }
 }

@@ -3,7 +3,7 @@
 /data/
 
 # Experiment files
-/experimentdata/
+# /experimentdata/
 
 # Local gradle files
 gradle/
