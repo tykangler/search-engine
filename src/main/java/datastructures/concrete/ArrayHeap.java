@@ -63,14 +63,14 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
 
     /* returns the index of the child with the smallest value, given a parent. 
     If the parent has a smaller value than all of its children, return parent index. */
-    private int getMinChildIndex(int minIndex) {
-        int lastChild = minIndex * NUM_CHILDREN + 4;
-        for (int i = minIndex * NUM_CHILDREN + 1; i < size && i <= lastChild; i++) {
-            if (heap[minIndex].compareTo(heap[i]) > 0) {
-                minIndex = i;
+    private int getMinChildIndex(int index) {
+        int lastChild = index * NUM_CHILDREN + 4;
+        for (int i = index * NUM_CHILDREN + 1; i < size && i <= lastChild; i++) {
+            if (heap[index].compareTo(heap[i]) > 0) {
+                index = i;
             }
         }
-        return minIndex;
+        return index;
     }
 
     @Override
