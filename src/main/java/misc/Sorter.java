@@ -29,6 +29,8 @@ public class Sorter {
         IPriorityQueue<T> heap = new ArrayHeap<T>();
         if (k > input.size()) {
             k = input.size();
+        } else if (k == 0) {
+            return sortedList;
         }
         int i = 0;
         for (T val : input) {

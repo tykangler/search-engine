@@ -5,6 +5,7 @@ import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
 import misc.Sorter;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -66,5 +67,15 @@ public class TestSorterFunctionality extends BaseTest {
         for (int i = 0; i < top.size(); i++) {
             assertEquals(i, top.get(i));
         }
+    }
+
+    @Test(timeout=SECOND)
+    public void testSortKEquals0() {
+        IList<Integer> list = new DoubleLinkedList<>();
+        for (int i = 0; i < 20; i++) {
+            list.add(i);
+        }
+        IList<Integer> top = Sorter.topKSort(0, list);
+        assertTrue(top.isEmpty());
     }
 }
