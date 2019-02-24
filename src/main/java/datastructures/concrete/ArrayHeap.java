@@ -19,7 +19,7 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
     // Feel free to add more fields and constants.
 
     public ArrayHeap() {
-        heap = makeArrayOfT(NUM_CHILDREN + 1);
+        heap = makeArrayOfT(1000);
         size = 0;
     }
 
@@ -47,22 +47,25 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         T ret = heap[0];
         size--;
         heap[0] = heap[size];
-        int parent = 0;
-        int minChildIndex = getMinChildIndex(0);
-        while (minChildIndex != parent) {
+        percDown(0);
+        return ret;
+    }
+
+    private void percDown(int parent) {
+        int minChildIndex = getMinChildIndex(parent);
+        if (minChildIndex != parent) {
             T temp = heap[parent];
             heap[parent] = heap[minChildIndex];
             heap[minChildIndex] = temp;
-            parent = minChildIndex;
-            minChildIndex = getMinChildIndex(parent);
+            percDown(minChildIndex);
         }
-        return ret;
     }
 
     /* returns the index of the child with the smallest value, given a parent. 
     If the parent has a smaller value than all of its children, return parent index. */
     private int getMinChildIndex(int minIndex) {
-        for (int i = minIndex * NUM_CHILDREN + 1; i < size && i < i + NUM_CHILDREN; i++) {
+        int lastChild = minIndex * NUM_CHILDREN + 4;
+        for (int i = minIndex * NUM_CHILDREN + 1; i < size && i <= lastChild; i++) {
             if (heap[minIndex].compareTo(heap[i]) > 0) {
                 minIndex = i;
             }
