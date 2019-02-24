@@ -31,7 +31,7 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
     }
 
     @Test(timeout=15*SECOND)
-    public void testStressInsertandPeekMin() {
+    public void testStressInsertAndPeekMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
         for (int i = 300000; i >= 0; i--) {
             heap.insert(i);

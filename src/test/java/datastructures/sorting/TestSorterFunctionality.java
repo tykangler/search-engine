@@ -14,7 +14,7 @@ import org.junit.Test;
  * See spec for details on what kinds of tests this class should include.
  */
 public class TestSorterFunctionality extends BaseTest {
-    @Test(timeout=SECOND)
+    @Test(timeout=1000*SECOND)
     public void testSimpleUsage() {
         IList<Integer> list = new DoubleLinkedList<>();
         for (int i = 0; i < 20; i++) {
@@ -28,7 +28,7 @@ public class TestSorterFunctionality extends BaseTest {
         }
     }
 
-    @Test(timeout=SECOND)
+    @Test(timeout=1000*SECOND)
     public void testSortKGreaterThanSize() {
         IList<Integer> list = new DoubleLinkedList<Integer>();
         for (int i = 49; i >= 0; i--) {
@@ -51,6 +51,7 @@ public class TestSorterFunctionality extends BaseTest {
             IList<Integer> top = Sorter.topKSort(-1, list);
             fail("negative inputs should have thrown exception");
         } catch (IllegalArgumentException ex) {
+            // Do nothing
 
         }
     }
