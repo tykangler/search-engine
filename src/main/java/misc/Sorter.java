@@ -30,18 +30,19 @@ public class Sorter {
         if (k > input.size()) {
             k = input.size();
         }
-        for (int i = 0; i < k; i++) {
-            heap.insert(input.get(i));
-        }
-        for (int i = k; i < input.size(); i++) {
-            T val = input.get(i);
-            if (heap.peekMin().compareTo(val) < 0) {
-                heap.removeMin();
+        int i = 0;
+        for (T val : input) {
+            if (i < k) {
                 heap.insert(val);
+            } else {
+                if (heap.peekMin().compareTo(val) < 0) {
+                    heap.removeMin();
+                    heap.insert(val);
+                }
             }
+            i++;
         }
-        int size = heap.size();
-        for (int i = 0; i < size; i++) {
+        for (int j = 0; j < k; j++) {
             sortedList.add(heap.removeMin());
         }
         return sortedList;

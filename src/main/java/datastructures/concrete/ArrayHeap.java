@@ -47,18 +47,16 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         T ret = heap[0];
         size--;
         heap[0] = heap[size];
-        percDown(0);
-        return ret;
-    }
-
-    private void percDown(int parent) {
+        int parent = 0;
         int minChildIndex = getMinChildIndex(parent);
-        if (minChildIndex != parent) {
+        while (minChildIndex != parent) {
             T temp = heap[parent];
             heap[parent] = heap[minChildIndex];
             heap[minChildIndex] = temp;
-            percDown(minChildIndex);
+            parent = minChildIndex;
+            minChildIndex = getMinChildIndex(minChildIndex);
         }
+        return ret;
     }
 
     /* returns the index of the child with the smallest value, given a parent. 
