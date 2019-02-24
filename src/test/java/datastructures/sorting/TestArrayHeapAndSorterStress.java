@@ -1,7 +1,5 @@
 package datastructures.sorting;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import misc.BaseTest;
@@ -35,7 +33,7 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
     }
 
     @Test(timeout=15*SECOND)
-    public void testStressInsertandPeekMin() {
+    public void testStressInsertAndPeekMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
         for (int i = 300000; i >= 0; i--) {
             heap.insert(i);
@@ -46,13 +44,13 @@ public class TestArrayHeapAndSorterStress extends BaseTest {
     @Test(timeout=15*SECOND)
     public void testStressInsertFromBackAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
-        for (int i = 0; i < 100000; i--) {
+        for (int i = 100000; i >= 0; i--) {
             heap.insert(i);
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i <= 100000; i++) {
             assertEquals(i, heap.removeMin());
         }
-        assertEquals(100000 - 100, heap.size());
+        assertEquals(0, heap.size());
     }
 
     @Test(timeout=15*SECOND)

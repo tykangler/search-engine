@@ -90,8 +90,8 @@ public class ArrayHeap<T extends Comparable<T>> implements IPriorityQueue<T> {
         size++;
         int compareIndex = size - 1;
         int parent = (compareIndex - 1) / NUM_CHILDREN;
-        while (heap[parent].compareTo(heap[compareIndex]) > 0) {
-            T temp = heap[compareIndex]; // while parent is bigger than child
+        while (heap[parent].compareTo(heap[compareIndex]) > 0) { // while parent is bigger than child
+            T temp = heap[compareIndex];
             heap[compareIndex] = heap[parent];
             heap[parent] = temp;
             compareIndex = parent;
