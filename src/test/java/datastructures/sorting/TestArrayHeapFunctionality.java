@@ -87,7 +87,7 @@ public class TestArrayHeapFunctionality extends BaseTest {
         }
     }
 
-    @Test(timeout=100*SECOND)
+    @Test(timeout=12000*SECOND)
     public void testMultipleInsertAndRemoveMin() {
         IPriorityQueue<Integer> heap = new ArrayHeap<Integer>();
         for (int i = 0; i < 10; i++) {
@@ -128,6 +128,14 @@ public class TestArrayHeapFunctionality extends BaseTest {
         assertEquals(0, heap.removeMin());
         assertTrue(!heap.isEmpty());
         assertEquals(4, initSize - 1);
+    }
+
+    @Test(timeout=SECOND)
+    public void testPercolateDownEfficient() {
+        IPriorityQueue<Integer> heap = this.makeInstance();
+        for (int i = 1000; i>= 0; i--) {
+            heap.insert(i);
+        }
     }
 
 }
