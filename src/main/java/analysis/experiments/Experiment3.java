@@ -31,7 +31,7 @@ public class Experiment3 {
         writer.addColumn("Test1Result", test1Results);
         writer.addColumn("Test2Result", test2Results);
         writer.addColumn("Test3Result", test3Results);
-        writer.writeToFile("experimentdata/experiment3.csv");
+        writer.writeToFile("C:/Users/tyler/programming/Java Programs/CSE 373/HW5/hw5-rhinoceros/experimentdata/experiment3.csv");
 
         System.out.println("All done!");
     }
