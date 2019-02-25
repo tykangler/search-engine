@@ -21,7 +21,7 @@ public class Experiment2 {
         CsvWriter writer = new CsvWriter();
         writer.addColumn("K", valuesOfK);
         writer.addColumn("TestResult", testResults);
-        writer.writeToFile("C:/Users/tyler/programming/Java Programs/CSE 373/HW5/hw5-rhinoceros/experimentdata/experiment2.csv");
+        writer.writeToFile("experimentdata/experiment2.csv");
 
         System.out.println("All done!");
     }

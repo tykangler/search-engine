@@ -22,7 +22,7 @@ public class Experiment1 {
         CsvWriter writer = new CsvWriter();
         writer.addColumn("ListSizes", listSizes);
         writer.addColumn("TestResult", testResults);
-        writer.writeToFile("C:/Users/tyler/programming/Java Programs/CSE 373/HW5/hw5-rhinoceros/experimentdata/experiment1.csv");
+        writer.writeToFile("experimentdata/experiment1.csv");
 
         System.out.println("All done!");
     }
