@@ -1,5 +1,7 @@
 package search.analyzers;
 
+import datastructures.concrete.KVPair;
+import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
@@ -28,15 +30,8 @@ public class TfIdfAnalyzer {
     // Feel free to add extra fields and helper methods.
 
     public TfIdfAnalyzer(ISet<Webpage> webpages) {
-        // Implementation note: We have commented these method calls out so your
-        // search engine doesn't immediately crash when you try running it for the
-        // first time.
-        //
-        // You should uncomment these lines when you're ready to begin working
-        // on this class.
-
-        //this.idfScores = this.computeIdfScores(webpages);
-        //this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        this.idfScores = this.computeIdfScores(webpages);
+        this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
     }
 
     // Note: this method, strictly speaking, doesn't need to exist. However,
@@ -57,7 +52,22 @@ public class TfIdfAnalyzer {
      * in every single document to their IDF score.
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
-        throw new NotYetImplementedException();
+        IDictionary<String, Double> scores = new ChainedHashDictionary<String, Double>();
+        int numPages = pages.size();
+        for (Webpage page : pages) {
+            IList<String> wordsInPage = page.getWords();
+            IDictionary<String, Boolean> hasVisited = new ChainedHashDictionary<String, Boolean>();
+            for (String word : wordsInPage) {
+                if (!hasVisited.containsKey(word)) {
+                    hasVisited.put(word, true);
+                    scores.put(word, scores.getOrDefault(word, 0.0) + 1);
+                }
+            }
+        }
+        for (KVPair<String, Double> counts : scores) {
+            scores.put(counts.getKey(), Math.log(numPages / counts.getValue()));
+        }
+        return scores;
     }
 
     /**
