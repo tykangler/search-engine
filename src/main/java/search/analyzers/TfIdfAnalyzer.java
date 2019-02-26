@@ -5,7 +5,6 @@ import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
-import misc.exceptions.NotYetImplementedException;
 import search.models.Webpage;
 
 import java.net.URI;
@@ -20,7 +19,6 @@ public class TfIdfAnalyzer {
     // This field must contain the IDF score for every single word in all
     // the documents.
     private IDictionary<String, Double> idfScores;
-    private IDictionary<String, Double> tfScores;
 
     // This field must contain the TF-IDF vector for each webpage you were given
     // in the constructor.
@@ -77,6 +75,7 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
+        IDictionary<String, Double> tfScores = new ChainedHashDictionary<String, Double>();
         for (String word : words) {
             if (!tfScores.containsKey(word)) {
                 tfScores.put(word, 1.0);
@@ -95,7 +94,17 @@ public class TfIdfAnalyzer {
     private IDictionary<URI, IDictionary<String, Double>> computeAllDocumentTfIdfVectors(ISet<Webpage> pages) {
         // Hint: this method should use the idfScores field and
         // call the computeTfScores(...) method.
-        throw new NotYetImplementedException();
+        IDictionary<URI, IDictionary<String, Double>> tfIdfVectors =
+                new ChainedHashDictionary<URI, IDictionary<String, Double>>();
+        for (Webpage page : pages) {
+            IDictionary<String, Double> relevance = computeTfScores(page.getWords());
+            for (KVPair<String, Double> tfScore : relevance) {
+                 relevance.put(tfScore.getKey(), tfScore.getValue() * idfScores.getOrDefault(tfScore.getKey(), 0.0));
+                 tfIdfVectors.put(page.getUri(), relevance);
+            }
+
+        }
+        return tfIdfVectors;
     }
 
     /**
