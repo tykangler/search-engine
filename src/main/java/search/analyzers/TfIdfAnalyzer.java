@@ -1,5 +1,7 @@
 package search.analyzers;
 
+import datastructures.concrete.KVPair;
+import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
@@ -35,8 +37,8 @@ public class TfIdfAnalyzer {
         // You should uncomment these lines when you're ready to begin working
         // on this class.
 
-        //this.idfScores = this.computeIdfScores(webpages);
-        //this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        this.idfScores = this.computeIdfScores(webpages);
+        this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
     }
 
     // Note: this method, strictly speaking, doesn't need to exist. However,
@@ -67,7 +69,17 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
-        throw new NotYetImplementedException();
+        IDictionary<String, Double> tfScores = new ChainedHashDictionary<String, Double>();
+        for (String word : words) {
+            if (!tfScores.containsKey(word)) {
+                tfScores.put(word, 1.0);
+            }
+            tfScores.put(word, tfScores.get(word) + 1.0);
+        }
+        for (KVPair<String, Double> counts : tfScores) {
+            tfScores.put(counts.getKey(), (counts.getValue() / words.size()));
+        }
+        return tfScores;
     }
 
     /**
