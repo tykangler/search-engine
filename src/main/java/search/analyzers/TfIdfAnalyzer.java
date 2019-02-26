@@ -76,7 +76,17 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
-        throw new NotYetImplementedException();
+        IDictionary<String, Double> tfScores = new ChainedHashDictionary<String, Double>();
+        for (String word : words) {
+            if (!tfScores.containsKey(word)) {
+                tfScores.put(word, 1.0);
+            }
+            tfScores.put(word, tfScores.get(word) + 1.0);
+        }
+        for (KVPair<String, Double> counts : tfScores) {
+            tfScores.put(counts.getKey(), (counts.getValue() / words.size()));
+        }
+        return tfScores;
     }
 
     /**
