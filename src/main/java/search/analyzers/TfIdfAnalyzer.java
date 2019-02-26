@@ -5,7 +5,6 @@ import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.ISet;
-import misc.exceptions.NotYetImplementedException;
 import search.models.Webpage;
 
 import java.net.URI;
@@ -47,10 +46,6 @@ public class TfIdfAnalyzer {
         return this.documentTfIdfVectors;
     }
 
-    public IDictionary<String, Double> getIdfScores() {
-        return this.idfScores;
-    }
-
     // Note: these private methods are suggestions or hints on how to structure your
     // code. However, since they're private, you're not obligated to implement exactly
     // these methods: feel free to change or modify these methods however you want. The
@@ -90,8 +85,9 @@ public class TfIdfAnalyzer {
         for (String word : words) {
             if (!tfScores.containsKey(word)) {
                 tfScores.put(word, 1.0);
+            } else {
+                tfScores.put(word, tfScores.get(word) + 1.0);
             }
-            tfScores.put(word, tfScores.get(word) + 1.0);
         }
         for (KVPair<String, Double> counts : tfScores) {
             tfScores.put(counts.getKey(), (counts.getValue() / words.size()));

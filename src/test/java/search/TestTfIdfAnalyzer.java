@@ -138,20 +138,4 @@ public class TestTfIdfAnalyzer extends BaseTest {
                 DELTA);
     }
 
-    @Test(timeout=SECOND)
-    public void testIdfScores() {
-        TfIdfAnalyzer analyzer = this.makeExampleAnalyzer();
-        IDictionary<String, Double> idfScores = analyzer.getIdfScores();
-        IDictionary<String, Double> expectedIdf = new ChainedHashDictionary<String, Double>();
-        expectedIdf.put("the", 0.0000000);
-        expectedIdf.put("mouse", 1.0986122);
-        expectedIdf.put("played", 1.0986122);
-        expectedIdf.put("with", 1.0986122);
-        expectedIdf.put("cat", 1.0986122);
-        for (KVPair<String, Double> eidfscore : expectedIdf) {
-                assertTrue("expected " + eidfscore.getValue() + " at \"" + eidfscore.getKey() + 
-                           "\", actual: " + idfScores.get(eidfscore.getKey()), 
-                           eidfscore.getValue() == idfScores.get(eidfscore.getKey()));
-        }
-    }
 }
