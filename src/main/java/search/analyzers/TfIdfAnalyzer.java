@@ -52,7 +52,6 @@ public class TfIdfAnalyzer {
      * in every single document to their IDF score.
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
-        IDictionary<String, Double> scores = new ChainedHashDictionary<String, Double>();
         int numPages = pages.size();
         for (Webpage page : pages) {
             IList<String> wordsInPage = page.getWords();
@@ -60,14 +59,14 @@ public class TfIdfAnalyzer {
             for (String word : wordsInPage) {
                 if (!hasVisited.containsKey(word)) {
                     hasVisited.put(word, true);
-                    scores.put(word, scores.getOrDefault(word, 0.0) + 1);
+                    idfScores.put(word, idfScores.getOrDefault(word, 0.0) + 1);
                 }
             }
         }
-        for (KVPair<String, Double> counts : scores) {
-            scores.put(counts.getKey(), Math.log(numPages / counts.getValue()));
+        for (KVPair<String, Double> counts : idfScores) {
+            idfScores.put(counts.getKey(), Math.log(numPages / counts.getValue()));
         }
-        return scores;
+        return idfScores;
     }
 
     /**
