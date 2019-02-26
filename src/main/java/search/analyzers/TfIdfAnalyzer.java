@@ -33,6 +33,7 @@ public class TfIdfAnalyzer {
     public TfIdfAnalyzer(ISet<Webpage> webpages) {
         this.idfScores = this.computeIdfScores(webpages);
         this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        normalizedTfIdfScores = new ChainedHashDictionary<URI, Double>();
         for (KVPair<URI, IDictionary<String, Double>> vector : documentTfIdfVectors) {
             normalizedTfIdfScores.put(vector.getKey(), norm(vector.getValue()));
         }
@@ -43,6 +44,10 @@ public class TfIdfAnalyzer {
     // constructor correctly initializes your fields.
     public IDictionary<URI, IDictionary<String, Double>> getDocumentTfIdfVectors() {
         return this.documentTfIdfVectors;
+    }
+
+    public IDictionary<String, Double> getIdfScores() {
+        return this.idfScores;
     }
 
     // Note: these private methods are suggestions or hints on how to structure your
@@ -57,7 +62,6 @@ public class TfIdfAnalyzer {
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
         IDictionary<String, Double> scores = new ChainedHashDictionary<String, Double>();
-        int numPages = pages.size();
         for (Webpage page : pages) {
             IList<String> wordsInPage = page.getWords();
             IDictionary<String, Boolean> hasVisited = new ChainedHashDictionary<String, Boolean>();
@@ -69,7 +73,7 @@ public class TfIdfAnalyzer {
             }
         }
         for (KVPair<String, Double> counts : scores) {
-            scores.put(counts.getKey(), Math.log(numPages / counts.getValue()));
+            scores.put(counts.getKey(), Math.log(pages.size() / counts.getValue()));
         }
         return scores;
     }
