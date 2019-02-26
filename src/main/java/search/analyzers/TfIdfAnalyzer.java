@@ -20,7 +20,6 @@ public class TfIdfAnalyzer {
     // This field must contain the IDF score for every single word in all
     // the documents.
     private IDictionary<String, Double> idfScores;
-    private IDictionary<String, Double> tfScores;
 
     // This field must contain the TF-IDF vector for each webpage you were given
     // in the constructor.
@@ -28,11 +27,16 @@ public class TfIdfAnalyzer {
     // We will use each webpage's page URI as a unique key.
     private IDictionary<URI, IDictionary<String, Double>> documentTfIdfVectors;
 
+    private IDictionary<URI, Double> normalizedTfIdfScores;
+
     // Feel free to add extra fields and helper methods.
 
     public TfIdfAnalyzer(ISet<Webpage> webpages) {
         this.idfScores = this.computeIdfScores(webpages);
         this.documentTfIdfVectors = this.computeAllDocumentTfIdfVectors(webpages);
+        for (KVPair<URI, IDictionary<String, Double>> vector : documentTfIdfVectors) {
+            normalizedTfIdfScores.put(vector.getKey(), norm(vector.getValue()));
+        }
     }
 
     // Note: this method, strictly speaking, doesn't need to exist. However,
@@ -53,6 +57,7 @@ public class TfIdfAnalyzer {
      * in every single document to their IDF score.
      */
     private IDictionary<String, Double> computeIdfScores(ISet<Webpage> pages) {
+        IDictionary<String, Double> scores = new ChainedHashDictionary<String, Double>();
         int numPages = pages.size();
         for (Webpage page : pages) {
             IList<String> wordsInPage = page.getWords();
@@ -60,14 +65,14 @@ public class TfIdfAnalyzer {
             for (String word : wordsInPage) {
                 if (!hasVisited.containsKey(word)) {
                     hasVisited.put(word, true);
-                    idfScores.put(word, idfScores.getOrDefault(word, 0.0) + 1);
+                    scores.put(word, scores.getOrDefault(word, 0.0) + 1);
                 }
             }
         }
-        for (KVPair<String, Double> counts : idfScores) {
-            idfScores.put(counts.getKey(), Math.log(numPages / counts.getValue()));
+        for (KVPair<String, Double> counts : scores) {
+            scores.put(counts.getKey(), Math.log(numPages / counts.getValue()));
         }
-        return idfScores;
+        return scores;
     }
 
     /**
@@ -77,6 +82,7 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
+        IDictionary<String, Double> tfScores = new ChainedHashDictionary<String, Double>();
         for (String word : words) {
             if (!tfScores.containsKey(word)) {
                 tfScores.put(word, 1.0);
@@ -93,9 +99,17 @@ public class TfIdfAnalyzer {
      * See spec for more details on what this method should do.
      */
     private IDictionary<URI, IDictionary<String, Double>> computeAllDocumentTfIdfVectors(ISet<Webpage> pages) {
-        // Hint: this method should use the idfScores field and
-        // call the computeTfScores(...) method.
-        throw new NotYetImplementedException();
+        IDictionary<URI, IDictionary<String, Double>> tfIdfVectors = 
+            new ChainedHashDictionary<URI, IDictionary<String, Double>>();
+        for (Webpage page : pages) {
+            IDictionary<String, Double> relevance = computeTfScores(page.getWords());
+            for (KVPair<String, Double> tfScore : relevance) {
+                double relevanceScore = tfScore.getValue() * idfScores.getOrDefault(tfScore.getKey(), 0.0);
+                relevance.put(tfScore.getKey(), relevanceScore);
+                tfIdfVectors.put(page.getUri(), relevance);
+            }
+        }
+        return tfIdfVectors;
     }
 
     /**
@@ -106,13 +120,24 @@ public class TfIdfAnalyzer {
      *               webpages given to the constructor.
      */
     public Double computeRelevance(IList<String> query, URI pageUri) {
-        // Note: The pseudocode we gave you is not very efficient. When implementing,
-        // this method, you should:
-        //
-        // 1. Figure out what information can be precomputed in your constructor.
-        //    Add a third field containing that information.
-        //
-        // 2. See if you can combine or merge one or more loops.
-        return 10.0;
+        IDictionary<String, Double> tfIdfVector = documentTfIdfVectors.get(pageUri);
+        IDictionary<String, Double> queryVector = computeTfScores(query);
+        double numerator = 0.0;
+        for (KVPair<String, Double> tfScore : queryVector) {
+            double queryScore = tfScore.getValue() * idfScores.getOrDefault(tfScore.getKey(), 0.0);
+            double docWordScore = tfIdfVector.getOrDefault(tfScore.getKey(), 0.0);
+            numerator += queryScore * docWordScore;
+            queryVector.put(tfScore.getKey(), queryScore);
+        }
+        double denominator = normalizedTfIdfScores.get(pageUri) * norm(queryVector);
+        return (denominator != 0) ? numerator / denominator : 0.0;
+    }
+
+    private double norm(IDictionary<String, Double> vector) {
+        double res = 0.0;
+        for (KVPair<String, Double> entry : vector) {
+            res += entry.getValue() * entry.getValue();
+        }
+        return Math.sqrt(res);
     }
 }
