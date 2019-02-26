@@ -20,6 +20,7 @@ public class TfIdfAnalyzer {
     // This field must contain the IDF score for every single word in all
     // the documents.
     private IDictionary<String, Double> idfScores;
+    private IDictionary<String, Double> tfScores;
 
     // This field must contain the TF-IDF vector for each webpage you were given
     // in the constructor.
@@ -76,7 +77,6 @@ public class TfIdfAnalyzer {
      * The input list represents the words contained within a single document.
      */
     private IDictionary<String, Double> computeTfScores(IList<String> words) {
-        IDictionary<String, Double> tfScores = new ChainedHashDictionary<String, Double>();
         for (String word : words) {
             if (!tfScores.containsKey(word)) {
                 tfScores.put(word, 1.0);
