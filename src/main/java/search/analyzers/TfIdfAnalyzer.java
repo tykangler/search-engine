@@ -46,10 +46,6 @@ public class TfIdfAnalyzer {
         return this.documentTfIdfVectors;
     }
 
-    public IDictionary<String, Double> getIdfScores() {
-        return this.idfScores;
-    }
-
     // Note: these private methods are suggestions or hints on how to structure your
     // code. However, since they're private, you're not obligated to implement exactly
     // these methods: feel free to change or modify these methods however you want. The
