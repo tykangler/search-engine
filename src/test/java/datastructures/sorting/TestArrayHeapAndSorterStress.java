@@ -1,7 +1,5 @@
 package datastructures.sorting;
 
-import java.util.Random;
-
 import misc.BaseTest;
 import misc.Sorter;
 
@@ -11,8 +9,6 @@ import datastructures.concrete.ArrayHeap;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.interfaces.IList;
 import datastructures.interfaces.IPriorityQueue;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * See spec for details on what kinds of tests this class should include.

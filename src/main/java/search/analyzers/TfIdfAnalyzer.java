@@ -89,8 +89,9 @@ public class TfIdfAnalyzer {
         for (String word : words) {
             if (!tfScores.containsKey(word)) {
                 tfScores.put(word, 1.0);
+            } else {
+                tfScores.put(word, tfScores.get(word) + 1.0);
             }
-            tfScores.put(word, tfScores.get(word) + 1.0);
         }
         for (KVPair<String, Double> counts : tfScores) {
             tfScores.put(counts.getKey(), (counts.getValue() / words.size()));
