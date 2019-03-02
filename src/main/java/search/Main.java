@@ -3,11 +3,8 @@ package search;
 public class Main {
     // The dataset to index and search.
     // MUST be the name of one of the folders in the 'data' folder.
-<<<<<<< HEAD
-    public static final String DATA_FOLDER_NAME = "C:/Users/tyler/Programming/Java Programs/CSE 373/HW5/hw5-rhinoceros/data/wikipedia-with-spam";
-=======
-    public static final String DATA_FOLDER_NAME = "gutenberg";
->>>>>>> 0998de5498b1f23952c5f5af988d5ed0eac120b9
+
+    public static final String DATA_FOLDER_NAME = "/Users/AndrewSong/CSE373/hw5-rhinoceros/data/gutenberg";
 
     // The name of your search engine (feel free to change this).
     public static final String SITE_TITLE = "Noodle";
