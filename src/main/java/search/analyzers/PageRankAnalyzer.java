@@ -103,14 +103,33 @@ public class PageRankAnalyzer {
             for (KVPair<URI, ISet<URI>> vertex : graph) {
                 URI curr = vertex.getKey();
                 ISet<URI> links = vertex.getValue();
-                for (URI link : links) {
-                    newPageRanks.put(link, newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
+                if (links.size() > 0) {
+                    for (URI link : links) {
+                        newPageRanks.put(link, newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
+                    }
+                } else {
+                    for (KVPair<URI, ISet<URI>> page : graph) {
+                        URI uri = page.getKey();
+                        newPageRanks.put(uri, newPageRanks.get(uri) + decay * oldPageRanks.get(curr) / N);
+                    }
+                }
+            }
+            boolean shouldContinue = false;
+            for (KVPair<URI, Double> ranks : newPageRanks) {
+                double updatedValue = ranks.getValue() + (1 - decay) / N;
+                newPageRanks.put(ranks.getKey(), updatedValue);
+                if (Math.abs(updatedValue - oldPageRanks.get(ranks.getKey())) > epsilon) {
+                    shouldContinue = true;
                 }
             }
 
             // Step 3: the convergence step should go here.
             // Return early if we've converged.
-            
+            if (shouldContinue) {
+                oldPageRanks = newPageRanks;
+            } else {
+                return newPageRanks;
+            }
         }
     }
 
