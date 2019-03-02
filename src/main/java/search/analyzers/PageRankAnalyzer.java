@@ -91,9 +91,9 @@ public class PageRankAnalyzer {
         // Step 1: The initialize step should go here
         IDictionary<URI, Double> oldPageRanks = new ChainedHashDictionary<URI, Double>();
         IDictionary<URI, Double> newPageRanks = new ChainedHashDictionary<URI, Double>();
-        int N = graph.size();
+        int capN = graph.size();
         for (KVPair<URI, ISet<URI>> vertex : graph) {
-            oldPageRanks.put(vertex.getKey(), 1.0 / N);
+            oldPageRanks.put(vertex.getKey(), 1.0 / capN);
             newPageRanks.put(vertex.getKey(), 0.0);
         }
         for (int i = 0; i < limit; i++) {
@@ -108,15 +108,15 @@ public class PageRankAnalyzer {
                 } else {
                     for (KVPair<URI, ISet<URI>> page : graph) {
                         URI uri = page.getKey();
-                        newPageRanks.put(uri, newPageRanks.get(uri) + decay * oldPageRanks.get(curr) / N);
+                        newPageRanks.put(uri, newPageRanks.get(uri) + decay * oldPageRanks.get(curr) / capN);
                     }
                 }
             }
             boolean shouldContinue = false;
             for (KVPair<URI, Double> ranks : newPageRanks) {
-                double updatedValue = ranks.getValue() + (1 - decay) / N;
+                double updatedValue = ranks.getValue() + (1 - decay) / capN;
                 newPageRanks.put(ranks.getKey(), updatedValue);
-                if (Math.abs(updatedValue - oldPageRanks.get(ranks.getKey())) > epsilon) {
+                if (Math.abs(updatedValue - oldPageRanks.get(ranks.getKey())) >= epsilon) {
                     shouldContinue = true;
                 }
             }
