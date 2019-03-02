@@ -103,7 +103,8 @@ public class PageRankAnalyzer {
                 ISet<URI> links = vertex.getValue();
                 if (links.size() > 0) {
                     for (URI link : links) {
-                        newPageRanks.put(link, newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
+                        newPageRanks.put(link, 
+                            newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
                     }
                 } else {
                     for (KVPair<URI, ISet<URI>> page : graph) {
@@ -112,21 +113,22 @@ public class PageRankAnalyzer {
                     }
                 }
             }
-            boolean shouldContinue = false;
+            boolean notConverged = false;
             for (KVPair<URI, Double> ranks : newPageRanks) {
-                double updatedValue = ranks.getValue() + (1 - decay) / capN;
+                double updatedValue = ranks.getValue() + (1.0 - decay) / capN;
                 newPageRanks.put(ranks.getKey(), updatedValue);
                 if (Math.abs(updatedValue - oldPageRanks.get(ranks.getKey())) >= epsilon) {
-                    shouldContinue = true;
+                    notConverged = true;
                 }
             }
 
             // Step 3: the convergence step should go here.
             // Return early if we've converged.
-            if (shouldContinue) {
+            if (notConverged) {
                 oldPageRanks = newPageRanks;
-                for (KVPair<URI, Double> ranks : newPageRanks) {
-                    newPageRanks.put(ranks.getKey(), 0.0);
+                newPageRanks = new ChainedHashDictionary<URI, Double>();
+                for (KVPair<URI, ISet<URI>> vertex : graph) {
+                    newPageRanks.put(vertex.getKey(), 0.0);
                 }
             } else {
                 return newPageRanks;
