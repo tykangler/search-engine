@@ -12,8 +12,6 @@ import org.junit.Test;
 import search.analyzers.TfIdfAnalyzer;
 import search.models.Webpage;
 
-import static org.junit.Assert.assertTrue;
-
 import java.net.URI;
 
 public class TestTfIdfAnalyzer extends BaseTest {
