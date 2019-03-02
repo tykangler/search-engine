@@ -1,11 +1,13 @@
 package search.analyzers;
 
 import datastructures.concrete.ChainedHashSet;
+import datastructures.concrete.KVPair;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.ISet;
 import misc.exceptions.NotYetImplementedException;
 import search.models.Webpage;
+import sun.security.provider.certpath.Vertex;
 
 import java.net.URI;
 
@@ -89,16 +91,27 @@ public class PageRankAnalyzer {
                                                    int limit,
                                                    double epsilon) {
         // Step 1: The initialize step should go here
-
+        IDictionary<URI, Double> oldPageRanks = new ChainedHashDictionary<URI, Double>();
+        IDictionary<URI, Double> newPageRanks = new ChainedHashDictionary<URI, Double>();
+        int N = graph.size();
+        for (KVPair<URI, ISet<URI>> vertex : graph) {
+            oldPageRanks.put(vertex.getKey(), 1.0 / n);
+            newPageRanks.put(vertex.getKey(), 0.0);
+        }
         for (int i = 0; i < limit; i++) {
             // Step 2: The update step should go here
+            for (KVPair<URI, ISet<URI>> vertex : graph) {
+                URI curr = vertex.getKey();
+                ISet<URI> links = vertex.getValue();
+                for (URI link : links) {
+                    newPageRanks.put(link, newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
+                }
+            }
 
             // Step 3: the convergence step should go here.
             // Return early if we've converged.
             
-            throw new NotYetImplementedException();
         }
-        throw new NotYetImplementedException();
     }
 
     /**
@@ -108,7 +121,6 @@ public class PageRankAnalyzer {
      *               webpages given to the constructor.
      */
     public double computePageRank(URI pageUri) {
-        // Implementation note: this method should be very simple: just one line!
-        return 1.0;
+        return pageRanks.get(pageUri);
     }
 }
