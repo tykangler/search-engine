@@ -95,7 +95,7 @@ public class PageRankAnalyzer {
         IDictionary<URI, Double> newPageRanks = new ChainedHashDictionary<URI, Double>();
         int N = graph.size();
         for (KVPair<URI, ISet<URI>> vertex : graph) {
-            oldPageRanks.put(vertex.getKey(), 1.0 / n);
+            oldPageRanks.put(vertex.getKey(), 1.0 / N);
             newPageRanks.put(vertex.getKey(), 0.0);
         }
         for (int i = 0; i < limit; i++) {
