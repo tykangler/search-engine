@@ -125,6 +125,9 @@ public class PageRankAnalyzer {
             // Return early if we've converged.
             if (shouldContinue) {
                 oldPageRanks = newPageRanks;
+                for (KVPair<URI, Double> ranks : newPageRanks) {
+                    newPageRanks.put(ranks.getKey(), 0.0);
+                }
             } else {
                 return newPageRanks;
             }
