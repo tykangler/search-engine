@@ -5,9 +5,7 @@ import datastructures.concrete.KVPair;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
 import datastructures.interfaces.ISet;
-import misc.exceptions.NotYetImplementedException;
 import search.models.Webpage;
-import sun.security.provider.certpath.Vertex;
 
 import java.net.URI;
 
@@ -131,6 +129,7 @@ public class PageRankAnalyzer {
                 return newPageRanks;
             }
         }
+        return newPageRanks;
     }
 
     /**
