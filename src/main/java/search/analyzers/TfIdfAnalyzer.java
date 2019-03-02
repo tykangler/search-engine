@@ -99,7 +99,7 @@ public class TfIdfAnalyzer {
      * See spec for more details on what this method should do.
      */
     private IDictionary<URI, IDictionary<String, Double>> computeAllDocumentTfIdfVectors(ISet<Webpage> pages) {
-        IDictionary<URI, IDictionary<String, Double>> tfIdfVectors = 
+        IDictionary<URI, IDictionary<String, Double>> tfIdfVectors =
             new ChainedHashDictionary<URI, IDictionary<String, Double>>();
         for (Webpage page : pages) {
             IDictionary<String, Double> relevance = computeTfScores(page.getWords());

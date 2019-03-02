@@ -79,6 +79,7 @@ public class TestTfIdfAnalyzer extends BaseTest {
         documentAExpected.put("played", 0.183102);
         documentAExpected.put("with", 0.183102);
         documentAExpected.put("cat", 0.183102);
+        vectors.get(URI.create("http://example.com/fake-page-a.html"));
 
         compareVectors(
                 documentAExpected,
