@@ -112,8 +112,7 @@ public class PageRankAnalyzer {
                 ISet<URI> links = vertex.getValue();
                 if (links.size() > 0) {
                     for (URI link : links) {
-                        newPageRanks.put(link, 
-                            newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
+                        newPageRanks.put(link, newPageRanks.get(link) + decay * oldPageRanks.get(curr) / links.size());
                     }
                 } else {
                     for (KVPair<URI, ISet<URI>> page : graph) {
