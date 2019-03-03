@@ -1,5 +1,6 @@
 package search.analyzers;
 
+import datastructures.concrete.ChainedHashSet;
 import datastructures.concrete.KVPair;
 import datastructures.concrete.dictionaries.ChainedHashDictionary;
 import datastructures.interfaces.IDictionary;
@@ -60,10 +61,10 @@ public class TfIdfAnalyzer {
         IDictionary<String, Double> scores = new ChainedHashDictionary<String, Double>();
         for (Webpage page : pages) {
             IList<String> wordsInPage = page.getWords();
-            IDictionary<String, Boolean> hasVisited = new ChainedHashDictionary<String, Boolean>();
+            ISet<String> visitedWords = new ChainedHashSet<String>();
             for (String word : wordsInPage) {
-                if (!hasVisited.containsKey(word)) {
-                    hasVisited.put(word, true);
+                if (!visitedWords.contains(word)) {
+                    visitedWords.add(word);
                     scores.put(word, scores.getOrDefault(word, 0.0) + 1);
                 }
             }

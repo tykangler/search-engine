@@ -92,7 +92,7 @@ dependencies {
 
 // Configure support to make this a command-line app
 apply plugin: 'application'
-mainClassName = 'noodle.Main'
+mainClassName = 'search/Main'
 
 run {
     standardInput = System.in

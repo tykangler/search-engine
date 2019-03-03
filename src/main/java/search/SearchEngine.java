@@ -30,7 +30,7 @@ public class SearchEngine {
 
     public SearchEngine(String dataFolderName) {
         long start = System.currentTimeMillis();
-        ISet<Webpage> webpages = this.collectWebpages(Paths.get("", dataFolderName));
+        ISet<Webpage> webpages = this.collectWebpages(Paths.get("data", dataFolderName));
         long end = System.currentTimeMillis() - start;
         System.out.println("Done loading pages (" + (end / 1000.0) + " sec)");
 

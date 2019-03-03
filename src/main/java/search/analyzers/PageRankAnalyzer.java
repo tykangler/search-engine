@@ -74,7 +74,7 @@ public class PageRankAnalyzer {
 
     private boolean uriIsInSet(ISet<Webpage> webpages, URI uri) {
         for (Webpage page : webpages) {
-            if (page.getUri() == uri) {
+            if (page.getUri().equals(uri)) {
                 return true;
             }
         }
@@ -104,14 +104,6 @@ public class PageRankAnalyzer {
         for (KVPair<URI, ISet<URI>> vertex : graph) {
             oldPageRanks.put(vertex.getKey(), 1.0 / capN);
             newPageRanks.put(vertex.getKey(), 0.0);
-        }
-        for (KVPair<URI, ISet<URI>> vertex : graph) {
-            if (!oldPageRanks.containsKey(vertex.getKey())) {
-                System.out.println(vertex.getKey().getHost() + " not present in oldPageRanks.");
-            } 
-            if (!newPageRanks.containsKey(vertex.getKey())) {
-                System.out.println(vertex.getKey().getHost() + " not present in newPageRanks.");
-            }
         }
         for (int i = 0; i < limit; i++) {
             // Step 2: The update step should go here
